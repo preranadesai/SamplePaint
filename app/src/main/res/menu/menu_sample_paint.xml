@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.samplepaint.SamplePaintActivity">
+    <item
+        android:id="@+id/action_clear"
+        android:orderInCategory="100"
+        android:title="@string/action_clear_canvas"
+        android:icon="@drawable/ic_eraser_white_24dp"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_pick_color"
+        android:orderInCategory="100"
+        android:title="@string/action_pick_color"
+        android:icon="@drawable/ic_eyedropper_variant_white_24dp"
+        app:showAsAction="always" />
+</menu>
