@@ -16,10 +16,18 @@ Clicking on ColorPicker action opens the Color Picker dialog enabling the user t
 To run the app, clone the SamplePaint repo and import the project into Android Studio.
 The application include the unit test that tests various functionality of the application.
 
+### SDK Version
+
+Min SDK Version: 15
+
+Target SDK Version: 20
+
 ### Author
 Prerana Desai
 
 ### Open Source Project Used
 
-The ColorPicker used in this application is taken from [ColorPickerCollection](https://github.com/gabrielemariotti/colorpickercollection) an open source GitHub project.
+The ColorPicker used in this application is taken from [ColorPickerCollection](https://github.com/gabrielemariotti/colorpickercollection) an open source GitHub project. Made following updates to the code
+- Added Black color to the palatte
+- The ColorPickerDialog remembers the selected color on orientation change
 
