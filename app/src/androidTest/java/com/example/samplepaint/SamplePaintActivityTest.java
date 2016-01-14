@@ -63,11 +63,12 @@ public class SamplePaintActivityTest extends ActivityInstrumentationTestCase2<Sa
      * invoked.
      */
     public  void testOpenColorPickerAction(){
-        // Click ActionBar Your opening the color picker
+        // Click ActionBar menu item open color picker
         TouchUtils.clickView(this, mOpenColorPickerAction);
 
         getInstrumentation().waitForIdleSync();
-        Fragment dialog = getActivity().getFragmentManager().findFragmentByTag("colorpicker");
+        Fragment dialog = getActivity().getFragmentManager().
+                                    findFragmentByTag(mSamplePaintActivity.FRAGMENT_TAG);
         assertTrue(dialog instanceof DialogFragment);
         assertTrue(((DialogFragment) dialog).getShowsDialog());
     }
@@ -78,15 +79,13 @@ public class SamplePaintActivityTest extends ActivityInstrumentationTestCase2<Sa
      * Verified that the ColorPickerDialog returns the default color.
      */
     public void testSetSelectedColorAsBlack(){
-        //Set the activity monitor
-        Instrumentation.ActivityMonitor colorPickerDialogMonitor =
-                mInstrumentation.addMonitor(ColorPickerDialog.class.getName(),
-                        null, false);
-        // Click ActionBar Your Holiday Icon
+
+        // Click ActionBar menu item open color picker
         TouchUtils.clickView(this, mOpenColorPickerAction);
 
         getInstrumentation().waitForIdleSync();
-        ColorPickerDialog dialog = (ColorPickerDialog)getActivity().getFragmentManager().findFragmentByTag("colorpicker");
+        ColorPickerDialog dialog = (ColorPickerDialog)getActivity().
+                getFragmentManager().findFragmentByTag(mSamplePaintActivity.FRAGMENT_TAG);
         //Verify that the dialog opens with selected color as black
         assertTrue(dialog.getSelectedColor() == Color.BLACK);
     }

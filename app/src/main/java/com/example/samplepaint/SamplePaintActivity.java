@@ -45,7 +45,12 @@ public class SamplePaintActivity extends AppCompatActivity {
     private CustomPaintView mCustomPaintView;
     private int mSelectedColor = 0;
     protected static final String KEY_SELECTED_COLOR = "selected_color";
-
+    //Used in unit test
+    public static String FRAGMENT_TAG = "colorpicker";
+    /**
+     * Invoked when the activity is getting created
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +71,11 @@ public class SamplePaintActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Inflate the menu
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -73,13 +83,25 @@ public class SamplePaintActivity extends AppCompatActivity {
         return true;
     }
 
-
+    /**
+     * Notification that something is about to happen, to give the Activity a
+     * chance to save state.
+     *
+     * @param outState a Bundle into which this Activity should save its state
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(KEY_SELECTED_COLOR, mSelectedColor);
     }
 
+    /**
+     * Invoked when the user selects an item from the Menu.
+     *
+     * @param item the Menu entry which was selected
+     * @return true if the Menu item was predefined item, false
+     *         otherwise
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -99,12 +121,20 @@ public class SamplePaintActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Call the CustomPaintView to clear the view when user clicks on
+     * menu action clear
+     */
     private void clearAll() {
         if (mCustomPaintView != null){
             mCustomPaintView.clearAll();
         }
     }
 
+    /**
+     * Opens the color picker DialogFragment when the user clicks on menu action color_picker
+     *
+     */
     private void openColorPicker(){
         //Get the color choices defined in resource file
         int[] colorArray = getColorChoices(this);

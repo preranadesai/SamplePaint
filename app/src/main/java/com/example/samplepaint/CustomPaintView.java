@@ -17,6 +17,7 @@
 package com.example.samplepaint;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Bitmap;
 import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * This CustomView extends the View class. It is listening on the touch event
@@ -83,13 +86,23 @@ public class CustomPaintView extends View {
         mCanvasPaint = new Paint(Paint.DITHER_FLAG);
    }
 
-
+    /**
+     * Draw the bitmap on canvas
+     * @param canvas
+     */
     @Override
     protected void onDraw(Canvas canvas){
         canvas.drawBitmap(mCanvasBitmap, 0, 0, mCanvasPaint);
         canvas.drawPath(mDrawPath, mDrawPaint);
     }
 
+    /**
+     * Called during layout when the size of view changes
+     * @param w
+     * @param h
+     * @param oldw
+     * @param oldh
+     */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -104,6 +117,11 @@ public class CustomPaintView extends View {
         mCanvas = new Canvas( mCanvasBitmap);
     }
 
+    /**
+     * Called when touch screen motion event occurs
+     * @param event
+     * @return boolean
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -185,14 +203,22 @@ public class CustomPaintView extends View {
         return mDrawPaint.getColor();
     }
 
+    /**
+     * Callback when the view instance state is about to get saved
+     * @return
+     */
     @Override
     protected Parcelable onSaveInstanceState() {
         Bundle outState = new Bundle();
         outState.putParcelable(SUPER_ID, super.onSaveInstanceState());
-        outState.putParcelable(BITMAP_ID, mCanvasBitmap);
+        outState.putByteArray(BITMAP_ID, compressBitmap(mCanvasBitmap));
         return outState;
     }
 
+    /**
+     * Callback method when the state is about to get restored
+     * @param state
+     */
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         if (state instanceof Bundle){
@@ -202,8 +228,28 @@ public class CustomPaintView extends View {
             }
 
             if (stateBundle.containsKey(BITMAP_ID)){
-                mCanvasBitmap = stateBundle.getParcelable(BITMAP_ID);
+                mCanvasBitmap = uncompressBitmap(stateBundle.getByteArray(BITMAP_ID));
             }
         }
+    }
+
+    /**
+     * Compressing the Bitmap to byte[] before saving it in bundle
+     * @param bitmap
+     * @return byte[]
+     */
+    private byte[] compressBitmap(Bitmap bitmap){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    /**
+     * Uncompressing byte[] back to bitmap
+     * @param byte[]
+     * @return Bitmap
+     */
+    private Bitmap uncompressBitmap(byte[] bytes){
+       return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }
